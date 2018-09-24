@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.classinfo.mapper.DisciplineInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.DisciplineInfo" >
+    <id column="discipline_id" property="disciplineId" jdbcType="INTEGER" />
+    <result column="discipline_name" property="disciplineName" jdbcType="VARCHAR" />
+    <result column="discipline_tuition" property="disciplineTuition" jdbcType="INTEGER" />
+    <result column="discipline_bring" property="disciplineBring" jdbcType="INTEGER" />
+    <result column="discipline_desc" property="disciplineDesc" jdbcType="VARCHAR" />
+    <result column="discipline_isuesd" property="disciplineIsuesd" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    discipline_id, discipline_name, discipline_tuition, discipline_bring, discipline_desc, 
+    discipline_isuesd
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from discipline_info
+    where discipline_id = #{disciplineId,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getDisciplineList" resultMap="BaseResultMap" parameterType="com.bfw.po.DisciplineInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from discipline_info
+    where discipline_isuesd='1'
+    <if test="disciplineName!=null and disciplineName!=''">
+    	and discipline_name = #{disciplineName}
+    </if>
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from discipline_info
+    where discipline_id = #{disciplineId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.DisciplineInfo" >
+    insert into discipline_info (discipline_id, discipline_name, discipline_tuition, 
+      discipline_bring, discipline_desc, discipline_isuesd
+      )
+    values (#{disciplineId,jdbcType=INTEGER}, #{disciplineName,jdbcType=VARCHAR}, #{disciplineTuition,jdbcType=INTEGER}, 
+      #{disciplineBring,jdbcType=INTEGER}, #{disciplineDesc,jdbcType=VARCHAR}, #{disciplineIsuesd,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.DisciplineInfo" >
+    insert into discipline_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="disciplineId != null" >
+        discipline_id,
+      </if>
+      <if test="disciplineName != null" >
+        discipline_name,
+      </if>
+      <if test="disciplineTuition != null" >
+        discipline_tuition,
+      </if>
+      <if test="disciplineBring != null" >
+        discipline_bring,
+      </if>
+      <if test="disciplineDesc != null" >
+        discipline_desc,
+      </if>
+      <if test="disciplineIsuesd != null" >
+        discipline_isuesd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="disciplineId != null" >
+        #{disciplineId,jdbcType=INTEGER},
+      </if>
+      <if test="disciplineName != null" >
+        #{disciplineName,jdbcType=VARCHAR},
+      </if>
+      <if test="disciplineTuition != null" >
+        #{disciplineTuition,jdbcType=INTEGER},
+      </if>
+      <if test="disciplineBring != null" >
+        #{disciplineBring,jdbcType=INTEGER},
+      </if>
+      <if test="disciplineDesc != null" >
+        #{disciplineDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="disciplineIsuesd != null" >
+        #{disciplineIsuesd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.DisciplineInfo" >
+    update discipline_info
+    <set >
+      <if test="disciplineName != null" >
+        discipline_name = #{disciplineName,jdbcType=VARCHAR},
+      </if>
+      <if test="disciplineTuition != null" >
+        discipline_tuition = #{disciplineTuition,jdbcType=INTEGER},
+      </if>
+      <if test="disciplineBring != null" >
+        discipline_bring = #{disciplineBring,jdbcType=INTEGER},
+      </if>
+      <if test="disciplineDesc != null" >
+        discipline_desc = #{disciplineDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="disciplineIsuesd != null" >
+        discipline_isuesd = #{disciplineIsuesd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where discipline_id = #{disciplineId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.DisciplineInfo" >
+    update discipline_info
+    set discipline_name = #{disciplineName,jdbcType=VARCHAR},
+      discipline_tuition = #{disciplineTuition,jdbcType=INTEGER},
+      discipline_bring = #{disciplineBring,jdbcType=INTEGER},
+      discipline_desc = #{disciplineDesc,jdbcType=VARCHAR},
+      discipline_isuesd = #{disciplineIsuesd,jdbcType=VARCHAR}
+    where discipline_id = #{disciplineId,jdbcType=INTEGER}
+  </update>
+</mapper>

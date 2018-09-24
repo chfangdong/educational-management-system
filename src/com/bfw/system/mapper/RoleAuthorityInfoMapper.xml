@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.system.mapper.RoleAuthorityInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.RoleAuthorityInfo" >
+    <id column="role_authority_id" property="roleAuthorityId" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="authority_id" property="authorityId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    role_authority_id, role_id, authority_id
+  </sql>
+  
+  <delete id="deleteByAuthorityId" parameterType="java.lang.Integer" >
+    delete from role_authority_info
+    where authority_id = #{authorityId,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 根据角色编号删除 -->
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer" >
+    delete from role_authority_info
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <select id="getRoleAuthorityInfoList" resultMap="BaseResultMap" parameterType="com.bfw.po.RoleAuthorityInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from role_anthority_info
+    <where>
+    	<if test="roleId!=null and roleId!=''">
+    		and role_id = #{roleId}
+    	</if>
+    </where>
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role_authority_info
+    where role_authority_id = #{roleAuthorityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role_authority_info
+    where role_authority_id = #{roleAuthorityId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.RoleAuthorityInfo" >
+    insert into role_authority_info (role_authority_id, role_id, authority_id
+      )
+    values (#{roleAuthorityId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{authorityId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.RoleAuthorityInfo" >
+    insert into role_authority_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleAuthorityId != null" >
+        role_authority_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="authorityId != null" >
+        authority_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleAuthorityId != null" >
+        #{roleAuthorityId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="authorityId != null" >
+        #{authorityId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.RoleAuthorityInfo" >
+    update role_authority_info
+    <set >
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="authorityId != null" >
+        authority_id = #{authorityId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where role_authority_id = #{roleAuthorityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.RoleAuthorityInfo" >
+    update role_authority_info
+    set role_id = #{roleId,jdbcType=INTEGER},
+      authority_id = #{authorityId,jdbcType=INTEGER}
+    where role_authority_id = #{roleAuthorityId,jdbcType=INTEGER}
+  </update>
+</mapper>

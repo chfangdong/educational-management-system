@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.classinfo.mapper.ClassroomInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.ClassroomInfo" >
+    <id column="classroom_id" property="classroomId" jdbcType="INTEGER" />
+    <result column="classroom_name" property="classroomName" jdbcType="VARCHAR" />
+    <result column="classroom_max" property="classroomMax" jdbcType="INTEGER" />
+    <result column="classroom_info" property="classroomInfo" jdbcType="VARCHAR" />
+    <result column="classroom_remark" property="classroomRemark" jdbcType="VARCHAR" />
+    <result column="classroom_mark" property="classroomMark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    classroom_id, classroom_name, classroom_max, classroom_info, classroom_remark, classroom_mark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from classroom_info
+    where classroom_id = #{classroomId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getClassroomList" resultMap="BaseResultMap" parameterType="com.bfw.po.ClassroomInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from classroom_info
+    where classroom_mark='1'
+    <if test="classroomName!=null and classroomName!=''">
+    	and classroom_name=#{classroomName}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from classroom_info
+    where classroom_id = #{classroomId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.ClassroomInfo" >
+    insert into classroom_info (classroom_id, classroom_name, classroom_max, 
+      classroom_info, classroom_remark, classroom_mark
+      )
+    values (#{classroomId,jdbcType=INTEGER}, #{classroomName,jdbcType=VARCHAR}, #{classroomMax,jdbcType=INTEGER}, 
+      #{classroomInfo,jdbcType=VARCHAR}, #{classroomRemark,jdbcType=VARCHAR}, #{classroomMark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.ClassroomInfo" >
+    insert into classroom_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classroomId != null" >
+        classroom_id,
+      </if>
+      <if test="classroomName != null" >
+        classroom_name,
+      </if>
+      <if test="classroomMax != null" >
+        classroom_max,
+      </if>
+      <if test="classroomInfo != null" >
+        classroom_info,
+      </if>
+      <if test="classroomRemark != null" >
+        classroom_remark,
+      </if>
+      <if test="classroomMark != null" >
+        classroom_mark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classroomId != null" >
+        #{classroomId,jdbcType=INTEGER},
+      </if>
+      <if test="classroomName != null" >
+        #{classroomName,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomMax != null" >
+        #{classroomMax,jdbcType=INTEGER},
+      </if>
+      <if test="classroomInfo != null" >
+        #{classroomInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomRemark != null" >
+        #{classroomRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomMark != null" >
+        #{classroomMark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.ClassroomInfo" >
+    update classroom_info
+    <set >
+      <if test="classroomName != null" >
+        classroom_name = #{classroomName,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomMax != null" >
+        classroom_max = #{classroomMax,jdbcType=INTEGER},
+      </if>
+      <if test="classroomInfo != null" >
+        classroom_info = #{classroomInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomRemark != null" >
+        classroom_remark = #{classroomRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomMark != null" >
+        classroom_mark = #{classroomMark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where classroom_id = #{classroomId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.ClassroomInfo" >
+    update classroom_info
+    set classroom_name = #{classroomName,jdbcType=VARCHAR},
+      classroom_max = #{classroomMax,jdbcType=INTEGER},
+      classroom_info = #{classroomInfo,jdbcType=VARCHAR},
+      classroom_remark = #{classroomRemark,jdbcType=VARCHAR},
+      classroom_mark = #{classroomMark,jdbcType=VARCHAR}
+    where classroom_id = #{classroomId,jdbcType=INTEGER}
+  </update>
+</mapper>

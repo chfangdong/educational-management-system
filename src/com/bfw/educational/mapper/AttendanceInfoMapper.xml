@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.educational.mapper.AttendanceInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.AttendanceInfo" >
+    <id column="attendance_id" property="attendanceId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="attendance_desc" property="attendanceDesc" jdbcType="VARCHAR" />
+    <result column="attendance_state" property="attendanceState" jdbcType="VARCHAR" />
+    <result column="attendance_time" property="attendanceTime" jdbcType="TIMESTAMP" />
+    <result column="attendance_remark" property="attendanceRemark" jdbcType="VARCHAR" />
+ 	<result column="student_name" property="studentName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    attendance_id, student_id, attendance_desc, attendance_state, attendance_time, attendance_remark
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+b.student_name,
+a.attendance_id,
+a.student_id,
+a.attendance_desc,
+a.attendance_state,
+a.attendance_time,
+a.attendance_remark
+from attendance_info a,student_info b
+where a.student_id = b.student_id
+
+    and  a.attendance_id = #{attendanceId,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getAttendanceInfoList" resultMap="BaseResultMap" parameterType="com.bfw.po.AttendanceInfo" >
+	    SELECT
+		b.student_name,
+		a.attendance_id,
+		a.student_id,
+		a.attendance_desc,
+		a.attendance_state,
+		a.attendance_time,
+		a.attendance_remark
+		from attendance_info a,student_info b
+		where a.student_id = b.student_id
+	<if test="studentName!=null and studentName!=''">
+		and student_name = #{studentName}
+	</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from attendance_info
+    where attendance_id = #{attendanceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.AttendanceInfo" >
+    insert into attendance_info (attendance_id, student_id, attendance_desc, 
+      attendance_state, attendance_time, attendance_remark
+      )
+    values (#{attendanceId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{attendanceDesc,jdbcType=VARCHAR}, 
+      #{attendanceState,jdbcType=VARCHAR}, #{attendanceTime,jdbcType=TIMESTAMP}, #{attendanceRemark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.AttendanceInfo" >
+    insert into attendance_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="attendanceId != null" >
+        attendance_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="attendanceDesc != null" >
+        attendance_desc,
+      </if>
+      <if test="attendanceState != null" >
+        attendance_state,
+      </if>
+      <if test="attendanceTime != null" >
+        attendance_time,
+      </if>
+      <if test="attendanceRemark != null" >
+        attendance_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="attendanceId != null" >
+        #{attendanceId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="attendanceDesc != null" >
+        #{attendanceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceState != null" >
+        #{attendanceState,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceTime != null" >
+        #{attendanceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendanceRemark != null" >
+        #{attendanceRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.AttendanceInfo" >
+    update attendance_info
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="attendanceDesc != null" >
+        attendance_desc = #{attendanceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceState != null" >
+        attendance_state = #{attendanceState,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceTime != null" >
+        attendance_time = #{attendanceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendanceRemark != null" >
+        attendance_remark = #{attendanceRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where attendance_id = #{attendanceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.AttendanceInfo" >
+    update attendance_info
+    set student_id = #{studentId,jdbcType=INTEGER},
+      attendance_desc = #{attendanceDesc,jdbcType=VARCHAR},
+      attendance_state = #{attendanceState,jdbcType=VARCHAR},
+      attendance_time = #{attendanceTime,jdbcType=TIMESTAMP},
+      attendance_remark = #{attendanceRemark,jdbcType=VARCHAR}
+    where attendance_id = #{attendanceId,jdbcType=INTEGER}
+  </update>
+</mapper>

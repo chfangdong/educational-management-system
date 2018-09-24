@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.finance.mapper.StaffSalaryMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.StaffSalary" >
+    <id column="staff_salary_id" property="staffSalaryId" jdbcType="INTEGER" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="sta_staff_id" property="staStaffId" jdbcType="INTEGER" />
+    <result column="total_salary" property="totalSalary" jdbcType="DOUBLE" />
+    <result column="deduct_salary" property="deductSalary" jdbcType="DOUBLE" />
+    <result column="real_salary" property="realSalary" jdbcType="DOUBLE" />
+    <result column="is_uesd" property="isUesd" jdbcType="VARCHAR" />
+    <result column="staff_salary_time" property="staffSalaryTime" jdbcType="TIMESTAMP" />
+    <result column="staff_remark" property="staffRemark" jdbcType="VARCHAR" />
+     <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+      <result column="finance_name" property="financeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    staff_salary_id, staff_id, sta_staff_id, total_salary, deduct_salary, real_salary, 
+    is_uesd, staff_salary_time, staff_remark
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    
+	select a.*,b.staff_name,c.staff_name as finance_name
+	
+	
+	from  staff_salary a,staff_info b,staff_info c
+	
+	where a.staff_id=b.staff_id  and a.sta_staff_id=c.staff_id
+    and  a.staff_salary_id = #{staffSalaryId,jdbcType=INTEGER}
+  </select>
+    <select id="getStaffSalaryList" resultMap="BaseResultMap" parameterType="com.bfw.po.StaffSalary" >
+    
+	select a.*,b.staff_name,c.staff_name as finance_name
+	
+	
+	from  staff_salary a,staff_info b,staff_info c
+	
+	where a.staff_id=b.staff_id  and a.sta_staff_id=c.staff_id
+    <if test="staffName!=null and staffName!=''">
+    	and b.staff_name like #{staffName}
+    </if>	
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from staff_salary
+    where staff_salary_id = #{staffSalaryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.StaffSalary" >
+    insert into staff_salary (staff_salary_id, staff_id, sta_staff_id, 
+      total_salary, deduct_salary, real_salary, 
+      is_uesd, staff_salary_time, staff_remark
+      )
+    values (#{staffSalaryId,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, #{staStaffId,jdbcType=INTEGER}, 
+      #{totalSalary,jdbcType=DOUBLE}, #{deductSalary,jdbcType=DOUBLE}, #{realSalary,jdbcType=DOUBLE}, 
+      #{isUesd,jdbcType=VARCHAR}, #{staffSalaryTime,jdbcType=TIMESTAMP}, #{staffRemark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.StaffSalary" >
+    insert into staff_salary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="staffSalaryId != null" >
+        staff_salary_id,
+      </if>
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+      <if test="staStaffId != null" >
+        sta_staff_id,
+      </if>
+      <if test="totalSalary != null" >
+        total_salary,
+      </if>
+      <if test="deductSalary != null" >
+        deduct_salary,
+      </if>
+      <if test="realSalary != null" >
+        real_salary,
+      </if>
+      <if test="isUesd != null" >
+        is_uesd,
+      </if>
+      <if test="staffSalaryTime != null" >
+        staff_salary_time,
+      </if>
+      <if test="staffRemark != null" >
+        staff_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="staffSalaryId != null" >
+        #{staffSalaryId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="staStaffId != null" >
+        #{staStaffId,jdbcType=INTEGER},
+      </if>
+      <if test="totalSalary != null" >
+        #{totalSalary,jdbcType=DOUBLE},
+      </if>
+      <if test="deductSalary != null" >
+        #{deductSalary,jdbcType=DOUBLE},
+      </if>
+      <if test="realSalary != null" >
+        #{realSalary,jdbcType=DOUBLE},
+      </if>
+      <if test="isUesd != null" >
+        #{isUesd,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSalaryTime != null" >
+        #{staffSalaryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffRemark != null" >
+        #{staffRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.StaffSalary" >
+    update staff_salary
+    <set >
+      <if test="staffId != null" >
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="staStaffId != null" >
+        sta_staff_id = #{staStaffId,jdbcType=INTEGER},
+      </if>
+      <if test="totalSalary != null" >
+        total_salary = #{totalSalary,jdbcType=DOUBLE},
+      </if>
+      <if test="deductSalary != null" >
+        deduct_salary = #{deductSalary,jdbcType=DOUBLE},
+      </if>
+      <if test="realSalary != null" >
+        real_salary = #{realSalary,jdbcType=DOUBLE},
+      </if>
+      <if test="isUesd != null" >
+        is_uesd = #{isUesd,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSalaryTime != null" >
+        staff_salary_time = #{staffSalaryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffRemark != null" >
+        staff_remark = #{staffRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where staff_salary_id = #{staffSalaryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.StaffSalary" >
+    update staff_salary
+    set staff_id = #{staffId,jdbcType=INTEGER},
+      sta_staff_id = #{staStaffId,jdbcType=INTEGER},
+      total_salary = #{totalSalary,jdbcType=DOUBLE},
+      deduct_salary = #{deductSalary,jdbcType=DOUBLE},
+      real_salary = #{realSalary,jdbcType=DOUBLE},
+      is_uesd = #{isUesd,jdbcType=VARCHAR},
+      staff_salary_time = #{staffSalaryTime,jdbcType=TIMESTAMP},
+      staff_remark = #{staffRemark,jdbcType=VARCHAR}
+    where staff_salary_id = #{staffSalaryId,jdbcType=INTEGER}
+  </update>
+</mapper>

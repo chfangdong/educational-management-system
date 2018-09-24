@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.educational.mapper.ClassTransactionInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.ClassTransactionInfo" >
+    <id column="class_transaction_id" property="classTransactionId" jdbcType="INTEGER" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="class_transaction_title" property="classTransactionTitle" jdbcType="VARCHAR" />
+    <result column="class_transaction_content" property="classTransactionContent" jdbcType="VARCHAR" />
+    <result column="class_transaction_person" property="classTransactionPerson" jdbcType="VARCHAR" />
+    <result column="class_transaction_time" property="classTransactionTime" jdbcType="TIMESTAMP" />
+    <result column="class_transaction_remark" property="classTransactionRemark" jdbcType="VARCHAR" />
+     <result column="class_name" property="className" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    class_transaction_id, class_id, class_transaction_title, class_transaction_content, 
+    class_transaction_person, class_transaction_time, class_transaction_remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+		   SELECT
+		b.class_name,
+		a.class_transaction_id,
+		a.class_id,
+		a.class_transaction_title,
+		a.class_transaction_content,
+		a.class_transaction_person,
+		a.class_transaction_time,
+		a.class_transaction_remark
+		from  class_transaction_info a,class_info b
+		where a.class_id = b.class_id
+
+    and a.class_transaction_id = #{classTransactionId,jdbcType=INTEGER}
+  </select>
+    <select id="getTransactionList" resultMap="BaseResultMap" parameterType="com.bfw.po.ClassTransactionInfo" >
+		   SELECT
+		b.class_name,
+		a.class_transaction_id,
+		a.class_id,
+		a.class_transaction_title,
+		a.class_transaction_content,
+		a.class_transaction_person,
+		a.class_transaction_time,
+		a.class_transaction_remark
+		from  class_transaction_info a,class_info b
+		where a.class_id = b.class_id
+		<if test="classTransactionTitle!=null and classTransactionTitle!=''">
+			and class_transaction_title=#{classTransactionTitle}
+		</if>
+    
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from class_transaction_info
+    where class_transaction_id = #{classTransactionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.ClassTransactionInfo" >
+    insert into class_transaction_info (class_transaction_id, class_id, class_transaction_title, 
+      class_transaction_content, class_transaction_person, 
+      class_transaction_time, class_transaction_remark
+      )
+    values (#{classTransactionId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{classTransactionTitle,jdbcType=VARCHAR}, 
+      #{classTransactionContent,jdbcType=VARCHAR}, #{classTransactionPerson,jdbcType=VARCHAR}, 
+      #{classTransactionTime,jdbcType=TIMESTAMP}, #{classTransactionRemark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.ClassTransactionInfo" >
+    insert into class_transaction_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classTransactionId != null" >
+        class_transaction_id,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="classTransactionTitle != null" >
+        class_transaction_title,
+      </if>
+      <if test="classTransactionContent != null" >
+        class_transaction_content,
+      </if>
+      <if test="classTransactionPerson != null" >
+        class_transaction_person,
+      </if>
+      <if test="classTransactionTime != null" >
+        class_transaction_time,
+      </if>
+      <if test="classTransactionRemark != null" >
+        class_transaction_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classTransactionId != null" >
+        #{classTransactionId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="classTransactionTitle != null" >
+        #{classTransactionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="classTransactionContent != null" >
+        #{classTransactionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="classTransactionPerson != null" >
+        #{classTransactionPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="classTransactionTime != null" >
+        #{classTransactionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classTransactionRemark != null" >
+        #{classTransactionRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.ClassTransactionInfo" >
+    update class_transaction_info
+    <set >
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="classTransactionTitle != null" >
+        class_transaction_title = #{classTransactionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="classTransactionContent != null" >
+        class_transaction_content = #{classTransactionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="classTransactionPerson != null" >
+        class_transaction_person = #{classTransactionPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="classTransactionTime != null" >
+        class_transaction_time = #{classTransactionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classTransactionRemark != null" >
+        class_transaction_remark = #{classTransactionRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where class_transaction_id = #{classTransactionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.ClassTransactionInfo" >
+    update class_transaction_info
+    set class_id = #{classId,jdbcType=INTEGER},
+      class_transaction_title = #{classTransactionTitle,jdbcType=VARCHAR},
+      class_transaction_content = #{classTransactionContent,jdbcType=VARCHAR},
+      class_transaction_person = #{classTransactionPerson,jdbcType=VARCHAR},
+      class_transaction_time = #{classTransactionTime,jdbcType=TIMESTAMP},
+      class_transaction_remark = #{classTransactionRemark,jdbcType=VARCHAR}
+    where class_transaction_id = #{classTransactionId,jdbcType=INTEGER}
+  </update>
+</mapper>

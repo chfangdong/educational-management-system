@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.student.mapper.StudentWriteGradeMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.StudentWriteGrade" >
+    <id column="write_grade_id" property="writeGradeId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="write_grade_subject" property="writeGradeSubject" jdbcType="VARCHAR" />
+    <result column="write_grade" property="writeGrade" jdbcType="VARCHAR" />
+    <result column="write_grade_time" property="writeGradeTime" jdbcType="TIMESTAMP" />
+    <result column="write_grade_note" property="writeGradeNote" jdbcType="VARCHAR" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    write_grade_id, student_id, staff_id, write_grade_subject, write_grade, write_grade_time, 
+    write_grade_note
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  
+	select  a.student_name,b.*,c.staff_name
+	
+	from student_info a,student_write_grade b,staff_info c
+	
+	where a.student_id =b.student_id and b.staff_id=c.staff_id
+    and b.write_grade_id = #{writeGradeId,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getStudentWriteGradeList" resultMap="BaseResultMap" parameterType="com.bfw.po.StudentWriteGrade" >
+	select  a.student_name,b.*,c.staff_name
+	from student_info a,student_write_grade b,staff_info c
+	
+	where a.student_id =b.student_id and b.staff_id=c.staff_id
+    
+    	<if test="studentName!=null and studentName!=''">
+    		and a.student_name =#{studentName}
+    	</if>
+    		<if test="studentId!=null and studentId!=''">
+  		and	a.student_id=#{studentId}
+  		</if>
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student_write_grade
+    where write_grade_id = #{writeGradeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.StudentWriteGrade" >
+    insert into student_write_grade (write_grade_id, student_id, staff_id, 
+      write_grade_subject, write_grade, write_grade_time, 
+      write_grade_note)
+    values (#{writeGradeId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, 
+      #{writeGradeSubject,jdbcType=VARCHAR}, #{writeGrade,jdbcType=VARCHAR}, #{writeGradeTime,jdbcType=TIMESTAMP}, 
+      #{writeGradeNote,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.StudentWriteGrade" >
+    insert into student_write_grade
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="writeGradeId != null" >
+        write_grade_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+      <if test="writeGradeSubject != null" >
+        write_grade_subject,
+      </if>
+      <if test="writeGrade != null" >
+        write_grade,
+      </if>
+      <if test="writeGradeTime != null" >
+        write_grade_time,
+      </if>
+      <if test="writeGradeNote != null" >
+        write_grade_note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="writeGradeId != null" >
+        #{writeGradeId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="writeGradeSubject != null" >
+        #{writeGradeSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="writeGrade != null" >
+        #{writeGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="writeGradeTime != null" >
+        #{writeGradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="writeGradeNote != null" >
+        #{writeGradeNote,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.StudentWriteGrade" >
+    update student_write_grade
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null" >
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="writeGradeSubject != null" >
+        write_grade_subject = #{writeGradeSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="writeGrade != null" >
+        write_grade = #{writeGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="writeGradeTime != null" >
+        write_grade_time = #{writeGradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="writeGradeNote != null" >
+        write_grade_note = #{writeGradeNote,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where write_grade_id = #{writeGradeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.StudentWriteGrade" >
+    update student_write_grade
+    set student_id = #{studentId,jdbcType=INTEGER},
+      staff_id = #{staffId,jdbcType=INTEGER},
+      write_grade_subject = #{writeGradeSubject,jdbcType=VARCHAR},
+      write_grade = #{writeGrade,jdbcType=VARCHAR},
+      write_grade_time = #{writeGradeTime,jdbcType=TIMESTAMP},
+      write_grade_note = #{writeGradeNote,jdbcType=VARCHAR}
+    where write_grade_id = #{writeGradeId,jdbcType=INTEGER}
+  </update>
+</mapper>

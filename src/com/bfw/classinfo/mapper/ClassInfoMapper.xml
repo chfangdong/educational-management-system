@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.classinfo.mapper.ClassInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.ClassInfo" >
+    <id column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="discipline_id" property="disciplineId" jdbcType="INTEGER" />
+    <result column="syllabus_id" property="syllabusId" jdbcType="INTEGER" />
+    <result column="classroom_id" property="classroomId" jdbcType="INTEGER" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="class_number" property="classNumber" jdbcType="INTEGER" />
+    <result column="class_start_time" property="classStartTime" jdbcType="TIMESTAMP" />
+    <result column="class_end_time" property="classEndTime" jdbcType="TIMESTAMP" />
+    <result column="class_isuesd" property="classIsuesd" jdbcType="VARCHAR" />
+    <result column="class_state" property="classState" jdbcType="VARCHAR" />
+    <result column="class_desc" property="classDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    class_id, discipline_id, syllabus_id, classroom_id, staff_id, class_name, class_number, 
+    class_start_time, class_end_time, class_isuesd, class_state, class_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from class_info
+    where class_id = #{classId,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getClassInfoList" resultMap="BaseResultMap" parameterType="com.bfw.po.ClassInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from class_info
+    where class_state='1'
+    <if test="className!=null and className!=''">
+   	 and class_name=#{className}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from class_info
+    where class_id = #{classId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.ClassInfo" >
+    insert into class_info (class_id, discipline_id, syllabus_id, 
+      classroom_id, staff_id, class_name, 
+      class_number, class_start_time, class_end_time, 
+      class_isuesd, class_state, class_desc
+      )
+    values (#{classId,jdbcType=INTEGER}, #{disciplineId,jdbcType=INTEGER}, #{syllabusId,jdbcType=INTEGER}, 
+      #{classroomId,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR}, 
+      #{classNumber,jdbcType=INTEGER}, #{classStartTime,jdbcType=TIMESTAMP}, #{classEndTime,jdbcType=TIMESTAMP}, 
+      #{classIsuesd,jdbcType=VARCHAR}, #{classState,jdbcType=VARCHAR}, #{classDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.ClassInfo" >
+    insert into class_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="disciplineId != null" >
+        discipline_id,
+      </if>
+      <if test="syllabusId != null" >
+        syllabus_id,
+      </if>
+      <if test="classroomId != null" >
+        classroom_id,
+      </if>
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="classNumber != null" >
+        class_number,
+      </if>
+      <if test="classStartTime != null" >
+        class_start_time,
+      </if>
+      <if test="classEndTime != null" >
+        class_end_time,
+      </if>
+      <if test="classIsuesd != null" >
+        class_isuesd,
+      </if>
+      <if test="classState != null" >
+        class_state,
+      </if>
+      <if test="classDesc != null" >
+        class_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="disciplineId != null" >
+        #{disciplineId,jdbcType=INTEGER},
+      </if>
+      <if test="syllabusId != null" >
+        #{syllabusId,jdbcType=INTEGER},
+      </if>
+      <if test="classroomId != null" >
+        #{classroomId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classNumber != null" >
+        #{classNumber,jdbcType=INTEGER},
+      </if>
+      <if test="classStartTime != null" >
+        #{classStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classEndTime != null" >
+        #{classEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classIsuesd != null" >
+        #{classIsuesd,jdbcType=VARCHAR},
+      </if>
+      <if test="classState != null" >
+        #{classState,jdbcType=VARCHAR},
+      </if>
+      <if test="classDesc != null" >
+        #{classDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.ClassInfo" >
+    update class_info
+    <set >
+      <if test="disciplineId != null" >
+        discipline_id = #{disciplineId,jdbcType=INTEGER},
+      </if>
+      <if test="syllabusId != null" >
+        syllabus_id = #{syllabusId,jdbcType=INTEGER},
+      </if>
+      <if test="classroomId != null" >
+        classroom_id = #{classroomId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null" >
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classNumber != null" >
+        class_number = #{classNumber,jdbcType=INTEGER},
+      </if>
+      <if test="classStartTime != null" >
+        class_start_time = #{classStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classEndTime != null" >
+        class_end_time = #{classEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classIsuesd != null" >
+        class_isuesd = #{classIsuesd,jdbcType=VARCHAR},
+      </if>
+      <if test="classState != null" >
+        class_state = #{classState,jdbcType=VARCHAR},
+      </if>
+      <if test="classDesc != null" >
+        class_desc = #{classDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where class_id = #{classId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.ClassInfo" >
+    update class_info
+    set discipline_id = #{disciplineId,jdbcType=INTEGER},
+      syllabus_id = #{syllabusId,jdbcType=INTEGER},
+      classroom_id = #{classroomId,jdbcType=INTEGER},
+      staff_id = #{staffId,jdbcType=INTEGER},
+      class_name = #{className,jdbcType=VARCHAR},
+      class_number = #{classNumber,jdbcType=INTEGER},
+      class_start_time = #{classStartTime,jdbcType=TIMESTAMP},
+      class_end_time = #{classEndTime,jdbcType=TIMESTAMP},
+      class_isuesd = #{classIsuesd,jdbcType=VARCHAR},
+      class_state = #{classState,jdbcType=VARCHAR},
+      class_desc = #{classDesc,jdbcType=VARCHAR}
+    where class_id = #{classId,jdbcType=INTEGER}
+  </update>
+</mapper>

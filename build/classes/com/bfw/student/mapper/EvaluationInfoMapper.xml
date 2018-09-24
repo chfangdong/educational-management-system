@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.student.mapper.EvaluationInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.EvaluationInfo" >
+    <id column="evaluation_id" property="evaluationId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="evaluation_title" property="evaluationTitle" jdbcType="VARCHAR" />
+    <result column="evaluation_content" property="evaluationContent" jdbcType="VARCHAR" />
+    <result column="evaluation_course" property="evaluationCourse" jdbcType="VARCHAR" />
+    <result column="evaluation_teacher" property="evaluationTeacher" jdbcType="VARCHAR" />
+    <result column="evaluation_time" property="evaluationTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    evaluation_id, student_id, evaluation_title, evaluation_content, evaluation_course, 
+    evaluation_teacher, evaluation_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   select  a.student_name,b.*
+
+	from student_info a,evaluation_info b 
+
+	where a.student_id =b.student_id
+    and  b.evaluation_id = #{evaluationId,jdbcType=INTEGER}
+  </select>
+    <select id="getEvaluationInfoList" resultMap="BaseResultMap" parameterType="com.bfw.po.EvaluationInfo" >
+   select  a.student_name,b.*
+
+	from student_info a,evaluation_info b 
+
+	where a.student_id =b.student_id
+   	<if test="studentName!=null and studentName!=''">
+   	  and a.student_name = #{studentName}
+   	</if>
+   		<if test="studentId!=null and studentId!=''">
+  			and a.student_id=#{studentId}
+  		</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evaluation_info
+    where evaluation_id = #{evaluationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.EvaluationInfo" >
+    insert into evaluation_info (evaluation_id, student_id, evaluation_title, 
+      evaluation_content, evaluation_course, evaluation_teacher, 
+      evaluation_time)
+    values (#{evaluationId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{evaluationTitle,jdbcType=VARCHAR}, 
+      #{evaluationContent,jdbcType=VARCHAR}, #{evaluationCourse,jdbcType=VARCHAR}, #{evaluationTeacher,jdbcType=VARCHAR}, 
+      #{evaluationTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.EvaluationInfo" >
+    insert into evaluation_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="evaluationId != null" >
+        evaluation_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="evaluationTitle != null" >
+        evaluation_title,
+      </if>
+      <if test="evaluationContent != null" >
+        evaluation_content,
+      </if>
+      <if test="evaluationCourse != null" >
+        evaluation_course,
+      </if>
+      <if test="evaluationTeacher != null" >
+        evaluation_teacher,
+      </if>
+      <if test="evaluationTime != null" >
+        evaluation_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="evaluationId != null" >
+        #{evaluationId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluationTitle != null" >
+        #{evaluationTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationContent != null" >
+        #{evaluationContent,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationCourse != null" >
+        #{evaluationCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationTeacher != null" >
+        #{evaluationTeacher,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationTime != null" >
+        #{evaluationTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.EvaluationInfo" >
+    update evaluation_info
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluationTitle != null" >
+        evaluation_title = #{evaluationTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationContent != null" >
+        evaluation_content = #{evaluationContent,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationCourse != null" >
+        evaluation_course = #{evaluationCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationTeacher != null" >
+        evaluation_teacher = #{evaluationTeacher,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationTime != null" >
+        evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where evaluation_id = #{evaluationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.EvaluationInfo" >
+    update evaluation_info
+    set student_id = #{studentId,jdbcType=INTEGER},
+      evaluation_title = #{evaluationTitle,jdbcType=VARCHAR},
+      evaluation_content = #{evaluationContent,jdbcType=VARCHAR},
+      evaluation_course = #{evaluationCourse,jdbcType=VARCHAR},
+      evaluation_teacher = #{evaluationTeacher,jdbcType=VARCHAR},
+      evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP}
+    where evaluation_id = #{evaluationId,jdbcType=INTEGER}
+  </update>
+</mapper>

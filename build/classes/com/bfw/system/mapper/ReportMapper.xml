@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.system.mapper.ReportMapper" >
+ 
+ <!-- 学员意向状态的报表 -->
+<select id="getStudentSateList"  resultType="java.util.HashMap">
+select count(b.data_content) total ,b.data_content
+from  student_info a,data_dictionary b
+where a.student_sate =b.data_id
+group by b.data_content 
+</select>
+
+<!-- 学员类型状态的报表 -->
+<select id="getStudentMarkList" resultType="java.util.HashMap">
+
+select  student_mark,count(student_mark)  as total
+
+from  student_info
+
+group by student_mark
+</select>
+
+<!-- 学员学校分布数据-->
+<select id="getStudentSchoolList" resultType="java.util.HashMap">
+select  student_school,count(student_school)  as total
+
+from  student_info
+
+group by student_school
+</select>
+ 
+ <!-- 获取当天需要联系的学员信息-->
+<select id="getStudentList" resultType="java.util.HashMap">
+select * from student_info where  student_id in (
+select student_id
+from  track_record_info
+where next_record_time=str_to_date(now(),'%Y-%m-%d') )
+
+</select>
+ 
+</mapper> 

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bfw.student.mapper.CommunicateInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bfw.po.CommunicateInfo" >
+    <id column="communicate_id" property="communicateId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="communicate_time" property="communicateTime" jdbcType="TIMESTAMP" />
+    <result column="communicate_content" property="communicateContent" jdbcType="VARCHAR" />
+  <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    communicate_id, student_id, staff_id, communicate_time, communicate_content
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    
+select  a.student_name,b.*,c.staff_name
+
+from student_info a,communicate_info b,staff_info c
+
+where a.student_id =b.student_id and b.staff_id=c.staff_id
+    and b.communicate_id = #{communicateId,jdbcType=INTEGER}
+  </select>
+    <select id="getCommunicateInfoList" resultMap="BaseResultMap" parameterType="com.bfw.po.CommunicateInfo" >
+	    
+		select  a.student_name,b.*,c.staff_name
+
+from student_info a,communicate_info b,staff_info c
+
+where a.student_id =b.student_id and b.staff_id=c.staff_id
+     	<if test="studentName!=null and studentName!=''">
+   	    and a.student_name = #{studentName}
+  		</if>
+  		<if test="studentId!=null ">
+  			and b.student_id=#{studentId}
+  		</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from communicate_info
+    where communicate_id = #{communicateId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bfw.po.CommunicateInfo" >
+    insert into communicate_info (communicate_id, student_id, staff_id, 
+      communicate_time, communicate_content)
+    values (#{communicateId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, 
+      #{communicateTime,jdbcType=TIMESTAMP}, #{communicateContent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bfw.po.CommunicateInfo" >
+    insert into communicate_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="communicateId != null" >
+        communicate_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+      <if test="communicateTime != null" >
+        communicate_time,
+      </if>
+      <if test="communicateContent != null" >
+        communicate_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="communicateId != null" >
+        #{communicateId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="communicateTime != null" >
+        #{communicateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="communicateContent != null" >
+        #{communicateContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bfw.po.CommunicateInfo" >
+    update communicate_info
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null" >
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="communicateTime != null" >
+        communicate_time = #{communicateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="communicateContent != null" >
+        communicate_content = #{communicateContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where communicate_id = #{communicateId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bfw.po.CommunicateInfo" >
+    update communicate_info
+    set student_id = #{studentId,jdbcType=INTEGER},
+      staff_id = #{staffId,jdbcType=INTEGER},
+      communicate_time = #{communicateTime,jdbcType=TIMESTAMP},
+      communicate_content = #{communicateContent,jdbcType=VARCHAR}
+    where communicate_id = #{communicateId,jdbcType=INTEGER}
+  </update>
+</mapper>
